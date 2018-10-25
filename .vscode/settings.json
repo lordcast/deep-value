@@ -1,3 +1,11 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "gitlens.remotes": [
+        {
+            "name": "orgin",
+            "repoUrl": "https://shashikumarrk@bitbucket.org/investconnect/deepvalue_stock.git"
+        }
+    ]
+
+    
 }
