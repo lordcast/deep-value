@@ -1,0 +1,37 @@
+{
+  "name": "deep_value_stock",
+  "version": "1.0.0",
+  "description": "This is a prototype application for stock analysis",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://shashikumarrk@bitbucket.org/investconnect/deepvalue_stock.git"
+  },
+  "keywords": [
+    "Init",
+    "application"
+  ],
+  "author": "Shashi Kumar R",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/investconnect/deepvalue_stock#readme",
+  "dependencies": {
+    "@uirouter/angularjs": "^1.0.20",
+    "angular": "^1.7.5",
+    "angular-loading-bar": "^0.9.0",
+    "angular-modal-service": "^0.14.2",
+    "angular-nvd3": "^1.0.9",
+    "angular-ui-bootstrap": "^2.5.6",
+    "handlebars": "^4.0.12",
+    "hapi": "^16.3.0",
+    "inert": "^4.2.0",
+    "knex": "^0.15.2",
+    "oclazyload": "^1.1.0",
+    "path": "^0.12.7",
+    "pg": "^7.5.0",
+    "restangular": "^1.6.1",
+    "vision": "^4.1.1"
+  }
+}
