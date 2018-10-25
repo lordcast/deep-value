@@ -1,0 +1,17 @@
+<html ng-app="plotlyTest">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="../src/angular-plotly.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body ng-controller="controller">
+    <plotly plotly-data="data" plotly-layout="layout" plotly-options="options" plotly-events="plotlyEvents"></plotly>
+    <button ng-click="movePoint()">Move Point</button>
+    <div>
+      <h2>Event Subscription Demo:</h2>
+      <p>Note: Use 'Box Select' to select points and update counter below</p>
+      <h3>Number of Selected Points: <span> {{ NumberOfSelectedPoints }} </span></h3>
+    </div>
+  </body>
+</html>

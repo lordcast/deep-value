@@ -83,7 +83,7 @@ server.route({
                     .andWhere('time', '>', request.query.startTime)
                     .andWhere('time', '<', request.query.endTime)
                     .groupByRaw(['sym', 'time'])
-                    .orderBy('time', 'asc')
+                    .orderBy('time', 'desc')
                     .then(function(data){return data}))
     }
 });
