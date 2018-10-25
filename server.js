@@ -78,10 +78,12 @@ server.route({
     method:'GET',
     path:'/query',
     handler:function(request, reply) {
-         return reply(knex.select('time', 'sym', 'price', 'size').from('daily_stock')
+         return reply(knex.select('time', 'sym', knex.raw('SUM(price) as price'), knex.raw('SUM(size) as size')).from('daily_stock')
                     .where({'sym': request.query.sym})
                     .andWhere('time', '>', request.query.startTime)
                     .andWhere('time', '<', request.query.endTime)
+                    .groupByRaw(['sym', 'time'])
+                    .orderBy('time', 'asc')
                     .then(function(data){return data}))
     }
 });

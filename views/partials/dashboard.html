@@ -37,4 +37,8 @@
             <a ui-sref="dashboard" class="btn btn-primary" ng-if="selectedCompany" ng-click="buildChart()">Build Chart</a>
         </div>
       </div>
+      <div>
+        <nvd3 data="data" options="options"></nvd3>
+
+      </div>
 </div>
