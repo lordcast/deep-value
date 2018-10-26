@@ -18,20 +18,19 @@ app.config(function ($urlRouterProvider,
         'events': false,
         'modules': [
             {
-                name: 'nvd3',
-                files: ['mod/d3/d3.js', 'mod/nvd3/build/nv.d3.js', 'mod/nvd3/build/nv.d3.css', '/mod/angular-nvd3/dist/angular-nvd3.js'],
+                name: 'amcharts',
+                files: ['https://www.amcharts.com/lib/3/amcharts.js', 'https://www.amcharts.com/lib/3/serial.js', 'https://www.amcharts.com/lib/3/plugins/export/export.min.js', 'https://www.amcharts.com/lib/3/plugins/export/export.css', 'https://www.amcharts.com/lib/3/themes/light.js'],
                 serie: true
             },
             {
-                name: 'ploty',
-                files:['https://www.amcharts.com/lib/3/amcharts.js', 'https://www.amcharts.com/lib/3/serial.js', 'https://www.amcharts.com/lib/3/plugins/export/export.min.js', 'https://www.amcharts.com/lib/3/plugins/export/export.css', 'https://www.amcharts.com/lib/3/themes/light.js'],
-                serie: true
+                name: 'angular-slider',
+                files: ['/mod/angularjs-slider/dist/rzslider.js', '/mod/angularjs-slider/dist/rzslider.css']
             }
         ]
     });
     cfpLoadingBarProvider = {
         includeSpinner: true,
-        latencyThreshold: 0,    
+        latencyThreshold: 0,
     }
 
     //for main content
@@ -40,16 +39,16 @@ app.config(function ($urlRouterProvider,
         templateUrl: '/views/partials/index.html',
         controller: homePage
     })
-    .state('dashboard', {
-        url: '/dashboard',
-        templateUrl: '/views/partials/dashboard.html',
-        controller: dashboard,
-        resolve: {
-            loadMyCtrl: ['$ocLazyLoad', '$window', function ($ocLazyLoad, $window) {
-                return $ocLazyLoad.load(['ploty']);
-            }]
-        }
-    })
+        .state('dashboard', {
+            url: '/dashboard',
+            templateUrl: '/views/partials/dashboard.html',
+            controller: dashboard,
+            resolve: {
+                loadMyCtrl: ['$ocLazyLoad', '$window', function ($ocLazyLoad, $window) {
+                    return $ocLazyLoad.load(['amcharts', 'angular-slider']);
+                }]
+            }
+        })
     $urlRouterProvider.otherwise('/')
     $locationProvider.html5Mode(true);
 });

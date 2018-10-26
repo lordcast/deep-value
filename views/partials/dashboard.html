@@ -1,43 +1,51 @@
 <div style="padding-top: 80px; padding-left: 20px">
-<div class="row">
-        <div class="col-sm-4">            
-                <h6 style='font-family:Varela Round; color: rgba(0,65,110,100); font-weight: bold'>
-                    Select A Company To Build The Stock Chart
-                </h6>
-                <br>
+    <div class="row">
+        <div class="col-sm-4">
+            <h6 style='font-family:Varela Round; color: rgba(0,65,110,100); font-weight: bold'>
+                Select A Company To Build The Stock Chart
+            </h6>
+            <br>
             <select class="browser-default custom-select" ng-model="selectedCompany">
-                <option ng-repeat="x in listCompany">{{x}}</option> 
+                <option ng-repeat="x in listCompany">{{x}}</option>
             </select>
         </div>
         <div class="col-sm-4">
             <h6 style='font-family:Varela Round; color: rgba(0,65,110,100); font-weight: bold; text-align: center'>
-                    Filter 
+                Filter
             </h6>
             <div class="form-inline">
-                <div class="col-md-6">Start Time<br>
+                <div class="col-md-6">Start Time
+                    <br>
                     <input class="form-control without_ampm" type="time" id="example_start_Input" name="startTime" ng-model="default.startDate"
-                    placeholder="HH:mm:ss" min="09:30:00.0" max="11:30:00.0" required step="0.1"/>
+                        ng-keyup="$event.keyCode == 13 ? buildChart() : null" placeholder="HH:mm:ss" min="09:30:00.0" max="11:30:00.0"
+                        required step="0.1" style="width: 100%; text-align: center" />
                 </div>
-                <div class="col-md-6">End Time<br>
-                    <input class="form-control without_ampm" type="time" id="example_end_Input" name="endTime" ng-model="default.endDate"
-                    placeholder="HH:mm:ss" min="09:30:00.0" max="11:30:00.0" required step="0.2"/>
+                <div class="col-md-6">End Time
+                    <br>
+                    <input class="form-control without_ampm" type="time" id="example_end_Input" name="endTime" ng-model="default.endDate" ng-keyup="$event.keyCode == 13 ? buildChart() : null"
+                        placeholder="HH:mm:ss" min="09:30:00.0" max="11:30:00.0" required step="0.1" style="width: 100%; text-align: center"
+                    />
                 </div>
             </div>
         </div>
-        <div class="col-sm-2"><br>
-            <h6 style='font-family:Varela Round; color: rgba(0,65,110,100); font-weight: bold'>
-                    Select Indent
-            </h6>
-            <select class="browser-default custom-select" ng-model="selectIndent">
-                    <option ng-repeat="x in selectIndentlist">{{x}}</option> 
-            </select>
-        </div>
         <div class="col-sm-2">
-            <br><br>    
-            <a ui-sref="dashboard" class="btn btn-primary" ng-if="selectedCompany" ng-click="buildChart()">Build Chart</a>
+            <br>
+            <br>
+            <a class="btn btn-primary" ng-if="selectedCompany" ng-click="buildChart()" style="color: white; font-weight: bold">Build Chart</a>
         </div>
-      </div>
-      <div>
-        <div id="chartdiv" style="height: 500px"></div>											
-      </div>
+    </div>
+    <div>
+        <br>
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-md-10">
+                <span ng-if="applyDefaults.enableSlider">
+                    <h6 style="text-align: center; color: sienna; font-weight: bold">Adjust Price Axis Indent</h6>
+                    <rzslider class="custom-slider" rz-slider-model="slider.min" rz-slider-high="slider.max" rz-slider-options="slider.options"></rzslider>
+                </span>
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+        <div id="chartdiv" style="height: 700px"></div>
+    </div>
 </div>

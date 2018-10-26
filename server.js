@@ -6,26 +6,26 @@ const handlebars = require('handlebars')
 
 
 // database connection must move to the loacl sqldatabase
-const DATABASE_URL='postgres://postgres:anz2016@localhost:5432/value'
+const DATABASE_URL = 'postgres://postgres:anz2016@localhost:5432/value'
 const knex = require('knex')({
     client: 'pg',
     connection: DATABASE_URL
-  });
+});
 
 const server = new hapi.Server()
 
-server.register([vision, inert], function(err){
-    if(err){
+server.register([vision, inert], function (err) {
+    if (err) {
         console.log('connot register vision');
     }
 });
 
 server.connection(
-      {
-          host: 'localhost',
-          port: 3000
-      }
-  );
+    {
+        host: 'localhost',
+        port: 3000
+    }
+);
 
 //for serving the html templates on single page application
 server.views({
@@ -75,16 +75,16 @@ server.route({
 
 // query endpoint for the getting all the result, this will act as a api endpoint
 server.route({
-    method:'GET',
-    path:'/query',
-    handler:function(request, reply) {
-         return reply(knex.select('time', 'sym', knex.raw('MAX(price) as price'), knex.raw('SUM(size) as size')).from('daily_stock')
-                    .where({'sym': request.query.sym})
-                    .andWhere('time', '>=', request.query.startTime)
-                    .andWhere('time', '<=', request.query.endTime)
-                    .groupByRaw(['sym', 'time'])
-                    .orderBy('time', 'desc')
-                    .then(function(data){return data}))
+    method: 'GET',
+    path: '/query',
+    handler: function (request, reply) {
+        return reply(knex.select('time', 'sym', knex.raw('MAX(price) as price'), knex.raw('SUM(size) as size')).from('daily_stock')
+            .where({ 'sym': request.query.sym })
+            .andWhere('time', '>=', request.query.startTime)
+            .andWhere('time', '<=', request.query.endTime)
+            .groupByRaw(['sym', 'time'])
+            .orderBy('time', 'desc')
+            .then(function (data) { return data }))
     }
 });
 
@@ -107,9 +107,9 @@ server.route({
 });
 
 //starting server
-server.start((err)=>{
-    if(err){
+server.start((err) => {
+    if (err) {
         throw err;
     }
-    console.log('Server running @: '+server.info.uri)
+    console.log('Server running @: ' + server.info.uri)
 })
