@@ -25,7 +25,7 @@
     "angular-ui-bootstrap": "^2.5.6",
     "angularjs-slider": "^6.6.1",
     "handlebars": "^4.0.12",
-    "hapi": "^16.3.0",
+    "hapi": "^16.6.3",
     "inert": "^4.2.0",
     "knex": "^0.15.2",
     "oclazyload": "^1.1.0",
@@ -33,6 +33,7 @@
     "pg": "^7.5.0",
     "plotly.js": "^1.41.3",
     "restangular": "^1.6.1",
+    "sqlite3": "^4.0.3",
     "vision": "^4.1.1"
   }
 }

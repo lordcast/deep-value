@@ -6,10 +6,12 @@ const handlebars = require('handlebars')
 
 
 // database connection must move to the loacl sqldatabase
-const DATABASE_URL = 'postgres://postgres:anz2016@localhost:5432/value'
+//const DATABASE_URL = 'postgres://postgres:anz2016@localhost:5432/value'
 const knex = require('knex')({
-    client: 'pg',
-    connection: DATABASE_URL
+    client: 'sqlite3',
+    connection: {
+        filename: '/static/db/stock.db'
+    }
 });
 
 const server = new hapi.Server()
