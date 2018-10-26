@@ -5,14 +5,15 @@ const vision = require('vision');
 const handlebars = require('handlebars')
 
 
-// database connection must move to the loacl sqldatabase
-//const DATABASE_URL = 'postgres://postgres:anz2016@localhost:5432/value'
+// database connection to local sqlite
 const knex = require('knex')({
     client: 'sqlite3',
     connection: {
-        filename: '/static/db/stock.db'
-    }
+        filename: './stock'
+    },
+    useNullAsDefault: true
 });
+
 
 const server = new hapi.Server()
 
