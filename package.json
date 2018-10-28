@@ -5,6 +5,9 @@
   "scripts": {
     "start": "node index.js"
   },
+  "engines": {
+    "node": "8.12.0"
+  }
   "repository": {
     "type": "git",
     "url": "git+https://shashikumarrk@bitbucket.org/investconnect/deepvalue_stock.git"
