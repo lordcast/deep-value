@@ -4,7 +4,6 @@ const Path = require('path');
 const vision = require('vision');
 const handlebars = require('handlebars')
 
-
 // database connection to local sqlite
 const knex = require('knex')({
     client: 'sqlite3',
