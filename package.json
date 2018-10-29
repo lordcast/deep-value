@@ -2,9 +2,9 @@
   "name": "deep_value_stock",
   "version": "1.0.0",
   "description": "This is a prototype application for stock analysis",
-  "main": "server.js"
+  "main": "app.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node app.js"
   },
   "engines": {
     "node": "8.12.0"
