@@ -2,13 +2,7 @@
   "name": "deep_value_stock",
   "version": "1.0.0",
   "description": "This is a prototype application for stock analysis",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js"
-  },
-  "engines": {
-    "node": "8.12.0"
-  },
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "git+https://shashikumarrk@bitbucket.org/investconnect/deepvalue_stock.git"
