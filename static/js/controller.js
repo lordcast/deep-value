@@ -100,6 +100,7 @@ function dashboard($scope, $http, $timeout) {
                 "categoryField": "volume",
                 "categoryAxis": {
                     "inside": false,
+                    "title": "Cumulative Volume By Price"
                 }
             })
             chart.addListener("axisChanged", $scope.changeAxisValue);
