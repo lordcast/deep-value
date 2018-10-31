@@ -9,16 +9,29 @@ function dashboard($scope, $http, $timeout) {
     $scope.applyDefaults = {
         'enableSlider': false,
         'delayInMs': 2000,
-        'init': true
-    }
-    $scope.listCompany = [
-        'SPY',
-        'C',
-        'ESP',
-        'MSFT'
-    ];
+        'init': true,
+        }
+    $scope.initData = {
+        'listCompany':['SPY','C','ESP','MSFT'],
+        'indent': [{
+            'value': '0',
+            'toFixed': 0
+        },
+        {
+            'value': '0.0',
+            'toFixed': 1
+        },
+        {
+            'value': '0.00',
+            'toFixed': 2
+        },
+        {
+            'value': '0.000',
+            'toFixed': 3
+        }
 
-    $scope.selectIndentlist = ['0', '0.0', '0.00']
+    ]
+    }
 
     function convertTime(timeValue) {
 
@@ -29,7 +42,7 @@ function dashboard($scope, $http, $timeout) {
         "startDate": new Date(new Date().toDateString() + ' ' + '09:30:00.000'),
         "endDate": new Date(new Date().toDateString() + ' ' + '11:30:00.000')
     }
-    $scope.selectIndent = '0.00';
+    $scope.selectedIndent = 2
 
     $scope.buildChart = function () {
         $scope.startDate_send = document.getElementById('example_start_Input').value
@@ -43,9 +56,8 @@ function dashboard($scope, $http, $timeout) {
                 "endTime": $scope.endDate_send
             }
         }).then(function (data) {
-            var tempObject = []
-            $scope.data = data.data;
-
+            $scope.httpGetData = data.data;
+            $scope.data = $scope.dataFormatter(data.data);
             $scope.slider = {
                 'min': Math.min.apply(Math, $scope.data.map(function (item) { return item.price; })),
                 'max': Math.max.apply(Math, $scope.data.map(function (item) { return item.price; })),
@@ -57,100 +69,75 @@ function dashboard($scope, $http, $timeout) {
                     'logScale': true,
                     'onEnd': function (id) {
                         $timeout.cancel($scope.applyDefaults.timeoutPromise);  //does nothing, if timeout alrdy done
-                        timeoutPromise = $timeout(function () {   //Set timeout
-                            chart.valueAxes[1].minimum = $scope.slider.min;
-                            chart.valueAxes[1].maximum = $scope.slider.max;
+                        timeoutPromise = $timeout(function () {
+                            console.log(chart.dataProvider);
+                            chart.valueAxes[0].minimum = $scope.slider.min;
+                            chart.valueAxes[0].maximum = $scope.slider.max;
                             chart.validateNow();
                         }, $scope.applyDefaults.delayInMs);
                     }
                 }
             }
-            angular.forEach(data.data, function (key) {
-                tempObject.push(
-                    {
-                        'time': key.time,
-                        'volume': parseInt(key.size),
-                        'price': parseFloat(key.price)
-                    }
-                )
-            })
             var chart = AmCharts.makeChart("chartdiv", {
                 "type": "serial",
                 "theme": "light",
-                "dataDateFormat": "HH:mm:ss",
-                "precision": 2,
-                "valueAxes": [{
-                    "id": "v1",
-                    "title": "Volume",
-                    "position": "left",
-                    "autoGridCount": false,
-                }, {
-                    "id": "v2",
-                    "title": "Price",
-                    "gridAlpha": 0,
-                    "position": "right",
-                    "autoGridCount": false,
-                    "labelFunction": function (value) {
-                        return "$" + value;
-                    },
-                }],
-                "graphs": [{
-                    "id": "g4",
-                    "valueAxis": "v1",
-                    "lineColor": "#00416e",
-                    "fillColors": "#00416e",
-                    "fillAlphas": 1,
-                    "type": "column",
-                    "title": "Volume",
-                    "valueField": "volume",
-                    "clustered": false,
-                    "columnWidth": 0.3,
-                    "legendValueText": "[[value]]",
-                    "balloonText": "[[title]]<br /><b style='font-size: 130%'>[[value]]</b>"
-                }, {
-                    "id": "g1",
-                    "valueAxis": "v2",
-                    "bulletColor": 0,
-                    "lineThickness": 1,
-                    "lineColor": "#ff0000",
-                    "type": "smoothedLine",
-                    "title": "Price",
-                    "useLineColorForBulletBorder": true,
-                    "valueField": "price",
-                    "balloonText": "[[title]]<br /><b style='font-size: 130%'>[[value]]</b>"
-                }],
-                "chartCursor": {
-                    "pan": true,
-                    "valueLineEnabled": true,
-                    "valueLineBalloonEnabled": true,
-                    "cursorAlpha": 0,
-                    "valueLineAlpha": 0.2
-                },
                 "rotate": true,
-                "categoryField": "time",
+                "dataProvider": $scope.data,
+                "valueAxes": [ {
+                    "gridAlpha": 0.2,
+                    "dashLength": 0,
+                    "position": "right"
+                   } ],
+                  "startDuration": 1,
+                "columnWidth": 0.4,
+                "graphs": [ {
+                    "balloonText": "[[category]]: <b>[[value]]</b>",
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.2,
+                    "type": "column",
+                    "valueField": "price",
+                 } ],
+                "categoryField": "volume",
                 "categoryAxis": {
-                    "parseDates": false,
-                    "dashLength": 1,
-                    "minorGridEnabled": false
-                },
-                "legend": {
-                    "useGraphSettings": true,
-                    "position": "top"
-                },
-                "balloon": {
-                    "borderThickness": 1,
-                    "shadowAlpha": 0
-                },
-                "export": {
-                    "enabled": true
-                },
-                'dataProvider': tempObject
+                    "inside": false,
+                }
             })
             chart.addListener("axisChanged", $scope.changeAxisValue);
+            $scope.changeIndent = function(){
+                if(!$scope.init){
+                    chart.dataProvider = $scope.dataFormatter($scope.httpGetData)
+                    chart.validateData();
+                    $scope.$broadcast('reCalcViewDimensions');
+                }
+            }
             $scope.applyDefaults = {
                 'enableSlider': true,
                 'init': false
             }
         });
     };
+
+    $scope.dataFormatter = function(getData){
+        console.log(getData);
+        var tempObject = [];
+        angular.forEach(getData, function (key) {
+            tempObject.push(
+                {
+                    'volume': parseInt(key.size),
+                    'price': parseFloat(key.price).toFixed($scope.selectedIndent)
+                }
+            )
+        });
+        $scope.subByValue = _(tempObject)
+        .groupBy('price')
+        .map((objs, key) => ({
+           'price': key,    
+           'volume': _.sumBy(objs, 'volume'),
+       })) 
+       .value();
+       console.log($scope.subByValue);
+       return $scope.subByValue
+    }
+
+
 };

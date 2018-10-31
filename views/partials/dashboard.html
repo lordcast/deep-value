@@ -6,12 +6,12 @@
             </h6>
             <br>
             <select class="browser-default custom-select" ng-model="selectedCompany">
-                <option ng-repeat="x in listCompany">{{x}}</option>
+                <option ng-repeat="x in initData.listCompany">{{x}}</option>
             </select>
         </div>
         <div class="col-sm-4">
             <h6 style='font-family:Varela Round; color: rgba(0,65,110,100); font-weight: bold; text-align: center'>
-                Filter
+                Filter (on change enter)
             </h6>
             <div class="form-inline">
                 <div class="col-md-6">Start Time
@@ -28,6 +28,15 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-2">
+            <h6 style='font-family:Varela Round; color: rgba(0,65,110,100); font-weight: bold; text-align: center'>
+                Indent
+            </h6>
+            <br>
+            <select class="browser-default custom-select" ng-model="selectedIndent" ng-change="changeIndent()">
+                    <option ng-repeat="x in initData.indent" ng-value="x.toFixed">{{x.value}}</option>
+            </select>
+        </div>
         <div class="col-sm-2">
             <br>
             <br>
@@ -40,7 +49,7 @@
             <div class="col-sm-1"></div>
             <div class="col-md-10">
                 <span ng-if="applyDefaults.enableSlider">
-                    <h6 style="text-align: center; color: sienna; font-weight: bold">Adjust Price Axis Indent</h6>
+                    <h6 style="text-align: center; color: sienna; font-weight: bold">Adjust Price Scale</h6>
                     <rzslider class="custom-slider" rz-slider-model="slider.min" rz-slider-high="slider.max" rz-slider-options="slider.options"></rzslider>
                 </span>
             </div>

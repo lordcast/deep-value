@@ -19,7 +19,7 @@ app.config(function ($urlRouterProvider,
         'modules': [
             {
                 name: 'amcharts',
-                files: ['https://www.amcharts.com/lib/3/amcharts.js', 'https://www.amcharts.com/lib/3/serial.js', 'https://www.amcharts.com/lib/3/plugins/export/export.min.js', 'https://www.amcharts.com/lib/3/plugins/export/export.css', 'https://www.amcharts.com/lib/3/themes/light.js'],
+                files: ['https://www.amcharts.com/lib/3/amcharts.js', 'https://www.amcharts.com/lib/3/serial.js', 'https://www.amcharts.com/lib/3/plugins/export/export.min.js', 'https://www.amcharts.com/lib/3/plugins/export/export.css', 'https://www.amcharts.com/lib/3/themes/light.js', '/mod/lodash/lodash.min.js'],
                 serie: true
             },
             {
