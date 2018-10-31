@@ -32,7 +32,6 @@ function dashboard($scope, $http, $timeout) {
 
     ]
     }
-
     function convertTime(timeValue) {
 
         return timeValue.substring(0, timeValue.length - 2)
@@ -56,28 +55,27 @@ function dashboard($scope, $http, $timeout) {
                 "endTime": $scope.endDate_send
             }
         }).then(function (data) {
-            $scope.httpGetData = data.data;
-            $scope.data = $scope.dataFormatter(data.data);
             $scope.slider = {
-                'min': Math.min.apply(Math, $scope.data.map(function (item) { return item.price; })),
-                'max': Math.max.apply(Math, $scope.data.map(function (item) { return item.price; })),
+                'value': 0.01,
                 'options': {
-                    'floor': Math.min.apply(Math, $scope.data.map(function (item) { return item.price; })),
-                    'ceil': Math.max.apply(Math, $scope.data.map(function (item) { return item.price; })),
+                    'floor': 0.01,
+                    'ceil': 0.10,
                     'step': 0.01,
                     'precision': 10,
-                    'logScale': true,
+                    'minLimit': 0.01,
+                    'maxLimit': 0.1,
+                    'showTicks': true,
                     'onEnd': function (id) {
                         $timeout.cancel($scope.applyDefaults.timeoutPromise);  //does nothing, if timeout alrdy done
                         timeoutPromise = $timeout(function () {
-                            console.log(chart.dataProvider);
-                            chart.valueAxes[0].minimum = $scope.slider.min;
-                            chart.valueAxes[0].maximum = $scope.slider.max;
-                            chart.validateNow();
+                            chart.dataProvider = $scope.dataFormatter($scope.httpGetData)
+                            chart.validateData();
                         }, $scope.applyDefaults.delayInMs);
                     }
                 }
             }
+            $scope.httpGetData = data.data;
+            $scope.data = $scope.dataFormatter(data.data);
             var chart = AmCharts.makeChart("chartdiv", {
                 "type": "serial",
                 "theme": "light",
@@ -95,12 +93,11 @@ function dashboard($scope, $http, $timeout) {
                     "fillAlphas": 1,
                     "lineAlpha": 0.2,
                     "type": "column",
-                    "valueField": "price",
+                    "valueField": "volume",
                  } ],
-                "categoryField": "volume",
+                "categoryField": "price",
                 "categoryAxis": {
                     "inside": false,
-                    "title": "Cumulative Volume By Price"
                 }
             })
             chart.addListener("axisChanged", $scope.changeAxisValue);
@@ -108,7 +105,6 @@ function dashboard($scope, $http, $timeout) {
                 if(!$scope.init){
                     chart.dataProvider = $scope.dataFormatter($scope.httpGetData)
                     chart.validateData();
-                    $scope.$broadcast('reCalcViewDimensions');
                 }
             }
             $scope.applyDefaults = {
@@ -124,7 +120,7 @@ function dashboard($scope, $http, $timeout) {
             tempObject.push(
                 {
                     'volume': parseInt(key.size),
-                    'price': parseFloat(key.price).toFixed($scope.selectedIndent)
+                    'price': ((parseFloat(key.price)/$scope.slider.value).toFixed(0)*$scope.slider.value).toFixed(2)
                 }
             )
         });
@@ -137,6 +133,4 @@ function dashboard($scope, $http, $timeout) {
        .value();
        return $scope.subByValue
     }
-
-
 };
