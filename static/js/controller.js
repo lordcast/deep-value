@@ -118,7 +118,6 @@ function dashboard($scope, $http, $timeout) {
     };
 
     $scope.dataFormatter = function(getData){
-        console.log(getData);
         var tempObject = [];
         angular.forEach(getData, function (key) {
             tempObject.push(
@@ -135,7 +134,6 @@ function dashboard($scope, $http, $timeout) {
            'volume': _.sumBy(objs, 'volume'),
        })) 
        .value();
-       console.log($scope.subByValue);
        return $scope.subByValue
     }
 
