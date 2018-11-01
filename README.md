@@ -1,4 +1,4 @@
-Find the demo app - [DEMO](https://deep-value.infinitespear.com)
+Find the demo app - [DEMO](http://deep-value.infinitespear.com)
 
 ## Project Title
     Prototype Stock analysis application built on the local json file for a list of stock
